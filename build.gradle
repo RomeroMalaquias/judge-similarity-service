@@ -1,0 +1,34 @@
+group 'br.ufal.ic'
+version '0.0.0'
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+task runEvaluator(type: JavaExec) {
+    main = 'br.ufal.ic.SimilarityVerifier'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task submit(type: JavaExec) {
+    main = 'br.ufal.ic.SubmissionTest'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'br.ufal.ic:commons-ampq:0.0.4'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+
+
+
+}
