@@ -20,6 +20,9 @@ class SimilarityTest extends ClientRPC {
         fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo\';", "threshold": 0.9}');
         fibonacciRpc.call('{"code1":"print \'Ola mundo2\';", "code2":"print \'Ola mundo23\';", "threshold": 0.9}');
         fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": 0.9}');
+        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": 0.1}');
+        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": -0.9}');
+        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": 9}');
 
 
     }

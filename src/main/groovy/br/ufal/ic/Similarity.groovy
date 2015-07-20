@@ -36,4 +36,7 @@ class Similarity {
     public String toString() {
         return threshold;
     }
+    public boolean isValid() {
+        return code1 && code2 && threshold <= 1 && threshold >= 0
+    }
 }

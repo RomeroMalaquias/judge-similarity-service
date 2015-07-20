@@ -28,7 +28,15 @@ class SimilarityVerifier extends ServerRPC {
     }
 
     String doWork (String message){
-        Similarity similarity =  new ObjectMapper().readValue(message, Similarity.class);
+        Similarity similarity
+        try {
+            similarity =  new ObjectMapper().readValue(message, Similarity.class);
+            if(!similarity.isValid()) {
+                return "INVALID_FORMAT"
+            }
+        } catch (Exception e) {
+            return "INVALID_FORMAT"
+        }
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("groovy");
         StringWriter writer = new StringWriter(); //ouput will be stored here
@@ -36,8 +44,14 @@ class SimilarityVerifier extends ServerRPC {
 
         ScriptContext context = new SimpleScriptContext();
         context.setWriter(writer); //configures output redirection
-
-       return distance(similarity.code1, similarity.code2)
+        def count1 = similarity.code1.split(' ').length
+        def count2 = similarity.code2.split(' ').length
+        def distance = distance(similarity.code1, similarity.code2)
+        def result = ((count1 * count2 * distance)/count1) / 100
+        if (1 - result > similarity.getThreshold()) {
+            return 'SUSPECT'
+        }
+        return 'NOT_SUSPECT'
 
     }
 
