@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/evaluator-service.iml" filepath="$PROJECT_DIR$/evaluator-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/similarity-service.iml" filepath="$PROJECT_DIR$/similarity-service.iml" />
     </modules>
   </component>
 </project>

@@ -14,7 +14,7 @@ task runEvaluator(type: JavaExec) {
 }
 
 task submit(type: JavaExec) {
-    main = 'br.ufal.ic.SubmissionTest'
+    main = 'br.ufal.ic.SimilarityTest'
     classpath = sourceSets.main.runtimeClasspath
 }
 
