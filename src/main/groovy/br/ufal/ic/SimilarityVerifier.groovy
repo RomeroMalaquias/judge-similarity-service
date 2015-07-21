@@ -1,6 +1,7 @@
 package br.ufal.ic
 
 import br.ufal.ic.commons.ServerRPC
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.codehaus.jackson.map.ObjectMapper
 
@@ -49,7 +50,7 @@ class SimilarityVerifier extends ServerRPC {
             e.printStackTrace()
             similarity['__response'] = "INVALID_FORMAT"
         }
-        return similarity
+        return  JsonOutput.toJson(similarity)
 
 
 
