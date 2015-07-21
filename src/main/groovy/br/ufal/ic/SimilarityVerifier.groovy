@@ -45,8 +45,7 @@ class SimilarityVerifier extends ServerRPC {
                         def count2 = element2.code.split(' ').length
                         def distance = distance(element1.code, element2.code)
                         def result = ((count1 * count2 * distance)/count1) / 100
-                        result = (1 - result) * 100
-                        result = result.toString() + '%'
+                        result = 1 - result
                         aux = element2.clone()
                         aux['__rate'] = result
                         auxIndex.add(aux)
