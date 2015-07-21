@@ -33,19 +33,32 @@ class SimilarityVerifier extends ServerRPC {
         def similarity
         try {
             def jsonSlurper = new JsonSlurper()
+            def aux, auxIndex, auxTotal = []
+
             similarity = jsonSlurper.parseText(message)
-            if(similarity.code1 && similarity.code2 && similarity.threshold && similarity.threshold >= 0 && similarity.threshold <= 1) {
-                def count1 = similarity.code1.split(' ').length
-                def count2 = similarity.code2.split(' ').length
-                def distance = distance(similarity.code1, similarity.code2)
-                def result = ((count1 * count2 * distance)/count1) / 100
-                if (1 - result > similarity.threshold) {
-                    similarity['__response'] = 'SUSPECT'
+            similarity.eachWithIndex { element1, i ->
+                auxIndex = []
+                aux = []
+                similarity.eachWithIndex { element2, j ->
+                    if (i != j) {
+                        def count1 = element1.code.split(' ').length
+                        def count2 = element2.code.split(' ').length
+                        def distance = distance(element1.code, element2.code)
+                        def result = ((count1 * count2 * distance)/count1) / 100
+                        result = (1 - result) * 100
+                        result = result.toString() + '%'
+                        aux = element2.clone()
+                        aux['__rate'] = result
+                        auxIndex.add(aux)
+                    }
                 }
-                similarity['__response'] = 'NOT_SUSPECT'
-            } else {
-                similarity['__response'] = "INVALID_FORMAT"
+                auxTotal.add(auxIndex)
             }
+            auxTotal.eachWithIndex {it, index ->
+                similarity[index].put('__similarities', it)
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace()
             similarity['__response'] = "INVALID_FORMAT"
@@ -57,7 +70,7 @@ class SimilarityVerifier extends ServerRPC {
     }
 
     public static void main(String[] argv) {
-        SimilarityVerifier evaluatorServer = new SimilarityVerifier("EXCHANGE", "evaluator");
+        SimilarityVerifier evaluatorServer = new SimilarityVerifier("EXCHANGE", "similarity");
 
 
     }

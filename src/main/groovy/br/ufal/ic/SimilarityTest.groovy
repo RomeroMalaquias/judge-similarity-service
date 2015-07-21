@@ -15,14 +15,9 @@ class SimilarityTest extends ClientRPC {
     }
 
     public static void main(String[] argv) {
-        SimilarityTest fibonacciRpc = new SimilarityTest("EXCHANGE", "evaluator");
+        SimilarityTest fibonacciRpc = new SimilarityTest("EXCHANGE", "similarity");
         fibonacciRpc.start();
-        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo\';", "threshold": 0.9}');
-        fibonacciRpc.call('{"code1":"print \'Ola mundo2\';", "code2":"print \'Ola mundo23\';", "threshold": 0.9}');
-        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": 0.9}');
-        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": 0.1}');
-        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": -0.9}');
-        fibonacciRpc.call('{"code1":"print \'Ola mundo\';", "code2":"print \'Ola mundo32\';", "threshold": 9}');
+        fibonacciRpc.call('[{"code":"print \'Ola mundo\';"}, {"code":"print \'Ola mundo\';"}, {"code":"print \'Ola mundo\';"}]');
 
 
     }
