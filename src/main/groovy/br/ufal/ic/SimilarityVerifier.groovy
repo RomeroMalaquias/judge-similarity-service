@@ -1,6 +1,7 @@
 package br.ufal.ic
 
 import br.ufal.ic.commons.ServerRPC
+import groovy.json.JsonSlurper
 import org.codehaus.jackson.map.ObjectMapper
 
 import javax.script.ScriptContext
@@ -28,30 +29,29 @@ class SimilarityVerifier extends ServerRPC {
     }
 
     String doWork (String message){
-        Similarity similarity
+        def similarity
         try {
-            similarity =  new ObjectMapper().readValue(message, Similarity.class);
-            if(!similarity.isValid()) {
-                return "INVALID_FORMAT"
+            def jsonSlurper = new JsonSlurper()
+            similarity = jsonSlurper.parseText(message)
+            if(similarity.code1 && similarity.code2 && similarity.threshold && similarity.threshold >= 0 && similarity.threshold <= 1) {
+                def count1 = similarity.code1.split(' ').length
+                def count2 = similarity.code2.split(' ').length
+                def distance = distance(similarity.code1, similarity.code2)
+                def result = ((count1 * count2 * distance)/count1) / 100
+                if (1 - result > similarity.threshold) {
+                    similarity['__response'] = 'SUSPECT'
+                }
+                similarity['__response'] = 'NOT_SUSPECT'
+            } else {
+                similarity['__response'] = "INVALID_FORMAT"
             }
         } catch (Exception e) {
-            return "INVALID_FORMAT"
+            e.printStackTrace()
+            similarity['__response'] = "INVALID_FORMAT"
         }
-        ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("groovy");
-        StringWriter writer = new StringWriter(); //ouput will be stored here
+        return similarity
 
 
-        ScriptContext context = new SimpleScriptContext();
-        context.setWriter(writer); //configures output redirection
-        def count1 = similarity.code1.split(' ').length
-        def count2 = similarity.code2.split(' ').length
-        def distance = distance(similarity.code1, similarity.code2)
-        def result = ((count1 * count2 * distance)/count1) / 100
-        if (1 - result > similarity.getThreshold()) {
-            return 'SUSPECT'
-        }
-        return 'NOT_SUSPECT'
 
     }
 
