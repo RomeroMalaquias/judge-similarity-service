@@ -1,6 +1,6 @@
-package br.ufal.ic
+package br.ufal.ic.judge
 
-import br.ufal.ic.commons.ClientRPC
+import br.ufal.ic.judge.commons.ClientRPC
 
 /**
  * Created by huxley on 18/07/15.

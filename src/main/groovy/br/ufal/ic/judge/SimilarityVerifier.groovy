@@ -1,15 +1,8 @@
-package br.ufal.ic
+package br.ufal.ic.judge
 
-import br.ufal.ic.commons.ServerRPC
+import br.ufal.ic.judge.commons.ServerRPC
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
-import org.codehaus.jackson.map.ObjectMapper
-
-import javax.script.ScriptContext
-import javax.script.ScriptEngine
-import javax.script.ScriptEngineManager
-import javax.script.SimpleScriptContext
-
 
 class SimilarityVerifier extends ServerRPC {
     SimilarityVerifier(String exchangeName, String key) {
