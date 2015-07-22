@@ -15,7 +15,7 @@ task run(type: JavaExec) {
 }
 
 task submit(type: JavaExec) {
-    main = 'br.ufal.ic.judge.SimilarityTest'
+    main = 'br.ufal.ic.judge.test.functional.SimilarityTest'
     classpath = sourceSets.main.runtimeClasspath
 }
 
@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+    testCompile 'org.spockframework:spock-maven:0.7-groovy-2.0'
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile 'br.ufal.ic.judge:judge-commons-amqp:1.0.0'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
